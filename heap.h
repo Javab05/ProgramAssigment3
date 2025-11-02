@@ -16,27 +16,63 @@ struct MinHeap {
 
     void push(int idx, int weightArr[]) {
         // TODO: insert index at end of heap, restore order using upheap()
+        while(size !>= 64){
+            data[size] = idx;
+            upheap(size, weightArr);
+            size++;
+        }    
     }
 
     int pop(int weightArr[]) {
         // TODO: remove and return smallest index
         // Replace root with last element, then call downheap()
-        return -1; // placeholder
+        while(size !==0){
+            int minIdx = data[0];
+            data[0] = data[size - 1];
+            size--;
+
+            if (size > 0)
+                downheap(0, weightArr);
+        }
+        return minIdx;
     }
 
-    void upheap(int pos, int weightArr[]) {
-        int parent = (pos - 1) / 2;
-        if (weightArr[parent] > weightArr[pos]){
-            int temp = weightArr[pos];
-            weightArr[pos] = (weightArr[parent];
-            (weightArr[parent] = temp;
-            pos = parent;
-        }else{
-            break;
+    void upheap(int i, int weightArr[]) {
+        while (i > 0){
+            int parent = (i - 1) / 2;
+            if (weightArr[data[parent]] > weightArr[data[i]]){
+                int temp = data[i];
+                data[i] = data[parent];
+                data[parent] = temp;
+                i = parent;
+            }else{
+                break;
+            }
+        }
     }
 
-    void downheap(int pos, int weightArr[]) {
+    void downheap(int i, int weightArr[]) {
         // TODO: swap parent downward while larger than any child
+        while(true){
+            int lc = 2 * i + 1;
+            int rc = 2 * i + 2;
+            int min = i;
+
+            if (lc < size && weightArr[data[lc]] < weightArr[data[min]])
+                min = lc;
+
+            if (rc < size && weightArr[data[rc]] < weightArr[data[min]])
+                min = rc;
+
+            if (min == i)
+                break;
+
+            int temp = data[i];
+            data[i] = data[min];
+            data[min] = temp;
+
+            i = min;
+        }
     }
 };
 
