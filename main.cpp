@@ -98,8 +98,30 @@ int buildEncodingTree(int nextFree) {
     //    - Set left/right pointers
     //    - Push new parent index back into the heap
     // 4. Return the index of the last remaining node (root)
-    return -1; // placeholder
+    MinHeap heap;
+
+    for (int i = 0; i < nextFree; ++i){
+        heap.push(i, weightArr);
+    }
+    while (heap.size > 1) {
+        int a = heap.pop(weightArr);
+        int b = heap.pop(weightArr);
+
+        int parent = nextFree++;
+        if (parent >= MAX_NODES){
+            cout << "Error: capacity exceeded.";
+            exit(1);
+        }
+        weightArr[parent] = weightArr[a] + weightArr[b];
+        leftArr[parent] = a;
+        rightArr[parent] = b;
+        charArr[parent] = 0;
+
+        heap.push(parent, weightArr);
 }
+
+int root = heap.pop(weightArr);
+return root;
 
 // Step 4: Use an STL stack to generate codes
 void generateCodes(int root, string codes[]) {
@@ -107,6 +129,7 @@ void generateCodes(int root, string codes[]) {
     // Use stack<pair<int, string>> to simulate DFS traversal.
     // Left edge adds '0', right edge adds '1'.
     // Record code when a leaf node is reached.
+    return -1;
 }
 
 // Step 5: Print table and encoded message
